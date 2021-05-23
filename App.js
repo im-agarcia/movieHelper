@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {
-  View, 
+  View,
   Text, 
-  StyleSheet, 
-  AppRegistry,
-  Button
+  StyleSheet,
+  TextInput,
+  Button, 
 } from 'react-native';
+import ficha from './components/ficha' 
 
   export default class MovieHelper extends Component{
     constructor(){
@@ -21,15 +22,9 @@ import {
     render(){
       return(
         <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Movie Helper!
-          </Text>
-          <Text>
-
-          </Text>
-          <Text>
-
-          </Text>
+          <Text style={styles.welcome}>MovieHelper!</Text>
+          <TextInput style={styles.textInput} placeholder='Nombre de la película'>
+          </TextInput><Button title='Buscar'/>
         </View>
       )
     }
@@ -43,9 +38,13 @@ import {
       backgroundColor: 'azure'     
     },
     welcome:{
-      fontSize: 20,
+      fontSize: 40,
       textAlign: 'center',
       color: 'blue',
-
+    },
+    textInput:{
+      height: 40,
+      border: 'solid grey',
+      borderRadius: 8
     }
   })
