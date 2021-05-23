@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   View, 
   Text, 
@@ -6,7 +6,6 @@ import {
   AppRegistry,
   Button
 } from 'react-native';
-import listado from {views};
 
   export default class MovieHelper extends Component{
     constructor(){
