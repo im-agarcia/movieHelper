@@ -9,8 +9,6 @@ const buscador = () =>{
 }
 
 
-
-
 const Style = StyleSheet.create({
 textInput:{
     height: 40,
@@ -19,4 +17,4 @@ textInput:{
   }
 })
 
-export default buscador()
+export default buscador();

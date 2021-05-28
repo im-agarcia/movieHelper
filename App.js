@@ -1,37 +1,32 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
-  View, 
-  Text, 
+  View,Text, 
   TextInput,
   StyleSheet, 
   AppRegistry,
   Button
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import buscador from './views/buscador';
 
-import buscador from './views/buscador'
+import Home from './pages/home/index'
+const Stack = createStackNavigator();
 
-
-
-  export default class MovieHelper extends Component{
-    constructor(){
-      super()
-
-      this.state ={
-        status: false,
-        data: null
-      }
-    }
-
-
-    render(){
-      return(
-        <View style={styles.container}>
-          <Text style={styles.welcome}> Movie Helper! </Text>
-        {buscador}
-        </View>
+  export default function App() {
+          return(
+            <NavigationContainer>
+              <Stack.Navigator>
+                <Stack.Screen name= 'Home' component= {Home}/>
+              </Stack.Navigator>
+            </NavigationContainer>
+          //   <View style={styles.container}>
+          //   <Text style={styles.welcome}> Movie Helper! </Text>
+          // {buscador}
+          // </View>
       )
-    }
-  }
+    };
+
 
   const styles = StyleSheet.create({
     container:{

@@ -4,12 +4,12 @@ import { View,
     StyleSheet, 
     Button,
     Image} from "react-native";
+import ficha from '../components/ficha'
 
 const listado =(props)=> {
     return(
         <View>
-            <text>Titulo: </text>
-            <button type= {peliculaIcono} />
+         <Button title= {props.title} type= {peliculaIcono} onClick={ficha(props)}/>
         </View>
     );
 };
