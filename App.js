@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import Home from './pages/home/index'
-import Listado from "./views/listado";
+import Listado from "./components/listado";
 
 const Stack = createStackNavigator();
 
