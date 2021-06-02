@@ -23,11 +23,7 @@ export default function App() {
           component={Home}
           options={{ title: 'Home' }}
         />
-        <Stack.Screen 
-         name="Listado"
-         component={Listado}
-         options={{ title: 'Peliculas' }}
-          />
+        <Stack.Screen name="Listado" component={Listado} />
         <Stack.Screen
           name="Login"
           component={Login}

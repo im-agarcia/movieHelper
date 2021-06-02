@@ -6,12 +6,15 @@ export function Listado({ navigation, route }) {
   // Refactor: incluir el if dentro del useEffect, hacerlo al revés no está recomendado:
   // https://es.reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
   const { nombre } = route.params || { nombre: '' };
-
+  if (nombre != '') {
     useEffect(() => {
-      if (nombre != '') {
       navigation.setOptions({ title: 'Resultados de: ' + nombre });
-    }
     }, []);
+  } else {
+    useEffect(() => {
+      navigation.setOptions({ title: 'Peliculas' });
+    }, []);
+  }
 
   return (
     <View style={Style.container}>
