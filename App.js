@@ -14,41 +14,6 @@ import { Home, Listado, Login, SignUp } from './pages';
 
 const Stack = createStackNavigator();
 
-<<<<<<< HEAD
-  export default function App() {
-          return(
-            <NavigationContainer>
-              <Stack.Navigator initialRouteName={'Login'}>
-                <Stack.Screen name= 'Home' component= {Home}/>
-                <Stack.Screen name= 'Listado' component= {Listado}/>
-                <Stack.Screen name= 'Login' component= {Login}/>
-              </Stack.Navigator>
-            </NavigationContainer>
-
-      )
-    };
-
-
-  const styles = StyleSheet.create({
-    container:{
-      flex:1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'azure'     
-    },
-    welcome:{
-      fontSize: 20,
-      textAlign: 'center',
-      color: 'blue',
-
-    },
-    textInput:{
-      height: 40,
-      border: 'solid grey',
-      borderRadius: 8
-    }
-  })
-=======
 export default function App() {
   return (
     <NavigationContainer>
@@ -93,4 +58,3 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 });
->>>>>>> 5831a68 (Login)
