@@ -10,7 +10,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { Home, Listado, Login, SignUp } from './pages';
+import { Home, Listado, Login, SignUp, Ficha } from './pages';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +36,11 @@ export default function App() {
           name="SignUp"
           component={SignUp}
           options={{ title: 'Crear cuenta' }}
+        />
+                <Stack.Screen
+          name='Ficha'
+          component={Ficha}
+          options={{ title: 'Datos de pelicula'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
