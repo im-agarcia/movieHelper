@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 
-export const Ficha = (props) => {
+export const Ficha = ({ navigation }) => {
   return (
     <View>
       <Image style={styles.imagen} source={{ uri: ImagenPeli(props) }} />
@@ -33,5 +33,3 @@ const styles = StyleSheet.create({
     height: 200,
   },
 });
-
-export default Ficha;

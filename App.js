@@ -37,8 +37,8 @@ export default function App() {
           component={SignUp}
           options={{ title: 'Crear cuenta' }}
         />
-                <Stack.Screen
-          name='Ficha'
+        <Stack.Screen
+          name="Ficha"
           component={Ficha}
           options={{ title: 'Datos de pelicula'}}
         />
