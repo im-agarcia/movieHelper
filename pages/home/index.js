@@ -17,6 +17,7 @@ export function Home({ navigation }) {
 
   return (
     <View style={Style.container}>
+      <Text style={Style.title}>Movie Helper</Text>
       <TextInput
         style={Style.textInput}
         value={nombre}
@@ -29,6 +30,11 @@ export function Home({ navigation }) {
           navigation.navigate('Listado', { nombre });
         }}
       />
+      <View style={Style.buttonContainer}>
+        <Button title={'Netflix'} />
+        <Text>  </Text>
+        <Button title={'Prime Video'}/>
+      </View>
     </View>
   );
 }
@@ -50,4 +56,15 @@ const Style = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'azure',
   },
+  title: {
+    fontSize: 30,
+    margin: 10,
+    padding: 5
+  },
+  buttonContainer: {
+    marginTop: 25,
+    padding: 10,
+    flexDirection: 'row',
+    alignSelf: 'center'
+  }
 });
