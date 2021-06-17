@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+
+import { styles } from '../../styles';
 
 export const SignUp = ({ navigation }) => {
   const [loginData, setLoginData] = useState({
@@ -15,26 +11,28 @@ export const SignUp = ({ navigation }) => {
   const [error, setError] = useState(false);
 
   return (
-    <View style={Style.container}>
-      <Text style={Style.title}>Ingresá tus datos</Text>
-      <Text style={Style.label}>E-mail</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Ingresá tus datos</Text>
+      <Text style={styles.label}>E-mail</Text>
       <TextInput
-        style={Style.textInput}
+        style={styles.textInput}
         value={loginData.email}
         placeholder="E-mail..."
+        placeholderTextColor="lightgray"
         textContentType="username"
         onChangeText={(email) => setLoginData({ ...loginData, email })}
       />
-      <Text style={Style.label}>Password</Text>
+      <Text style={styles.label}>Password</Text>
       <TextInput
-        style={Style.textInput}
+        style={styles.textInput}
         value={loginData.password}
         placeholder="Password..."
+        placeholderTextColor="lightgray"
         textContentType="password"
         onChangeText={(password) => setLoginData({ ...loginData, password })}
       />
       <TouchableOpacity
-        style={Style.button}
+        style={styles.button}
         onPress={() => {
           // Llamar a la API correspondiente para crear una cuenta (pasarle loginData)
 
@@ -45,64 +43,11 @@ export const SignUp = ({ navigation }) => {
           navigation.navigate('Home');
         }}
       >
-        <Text style={Style.text}>CREAR CUENTA</Text>
+        <Text style={styles.text}>CREAR CUENTA</Text>
       </TouchableOpacity>
       {error && (
-        <Text style={Style.error}>Hubo un error creando tu cuenta</Text>
+        <Text style={styles.error}>Hubo un error creando tu cuenta</Text>
       )}
     </View>
   );
 };
-
-const Style = StyleSheet.create({
-  textInput: {
-    height: 40,
-    borderStyle: 'solid',
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 8,
-    margin: 10,
-    padding: 5,
-    width: '70%',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'azure',
-    paddingTop: '25%',
-  },
-  button: {
-    width: '80%',
-    backgroundColor: 'lightblue',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 10,
-    marginTop: '5%',
-  },
-  title: {
-    color: 'black',
-    fontSize: 30,
-    margin: 10,
-    marginBottom: '10%',
-  },
-  text: {
-    color: 'black',
-    fontSize: 11,
-    margin: 10,
-  },
-  label: {
-    color: 'black',
-    fontSize: 10,
-    width: '70%',
-    textAlign: 'left',
-    padding: 5,
-  },
-  error: {
-    color: 'red',
-    fontSize: 11,
-    margin: 10,
-  },
-});

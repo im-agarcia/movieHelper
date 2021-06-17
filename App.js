@@ -1,12 +1,4 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  AppRegistry,
-  Button,
-} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -23,14 +15,15 @@ export default function App() {
           component={Home}
           options={{ title: 'Home' }}
         />
-        <Stack.Screen 
-        name="Listado" 
-        component={Listado} 
-        options={{ title: 'Peliculas' }}/>
+        <Stack.Screen
+          name="Listado"
+          component={Listado}
+          options={{ title: 'Listado de películas' }}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ title: 'Login' }}
+          options={{ title: 'Iniciar sesión' }}
         />
         <Stack.Screen
           name="SignUp"
@@ -40,29 +33,9 @@ export default function App() {
         <Stack.Screen
           name="Ficha"
           component={Ficha}
-          options={{ title: 'Datos de pelicula'}}
+          options={{ title: 'Ficha de película' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'azure',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    color: 'blue',
-  },
-  textInput: {
-    height: 40,
-    borderStyle: 'solid',
-    borderColor: 'grey',
-    borderRadius: 8,
-  },
-});

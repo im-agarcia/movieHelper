@@ -1,70 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  AppRegistry,
-  Button,
-} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-// Cambié el nombre porque los componentes se nombran en mayúscula por convención
+import { styles } from '../../styles';
+
 export function Home({ navigation }) {
   const [nombre, setNombre] = useState('');
 
   return (
-    <View style={Style.container}>
-      <Text style={Style.title}>Movie Helper</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Movie Helper</Text>
       <TextInput
-        style={Style.textInput}
+        style={styles.textInput}
         value={nombre}
         onChangeText={setNombre}
-        placeholder="Nombre de la película"
+        placeholder="Ingrese el nombre de la película"
+        placeholderTextColor="lightgray"
       />
-      <Button
-        title="Buscar"
-        onPress={() => {
-          navigation.navigate('Listado', { nombre });
-        }}
-      />
-      <View style={Style.buttonContainer}>
-        <Button title={'Netflix'} />
-        <Text>  </Text>
-        <Button title={'Prime Video'}/>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Listado', { nombre })}
+      >
+        <Text style={styles.text}>Buscar</Text>
+      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Listado')}>
+          <Text style={styles.text}>Netflix</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Listado')}>
+          <Text style={styles.text}>Prime Video</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
-
-const Style = StyleSheet.create({
-  textInput: {
-    height: 40,
-    borderStyle: 'solid',
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 8,
-    margin: 10,
-    padding: 5,
-    width: '70%',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'azure',
-  },
-  title: {
-    fontSize: 30,
-    margin: 10,
-    padding: 5
-  },
-  buttonContainer: {
-    marginTop: 25,
-    padding: 10,
-    flexDirection: 'row',
-    alignSelf: 'center'
-  }
-});

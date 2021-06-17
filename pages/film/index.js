@@ -1,35 +1,39 @@
-import React from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Button, 
-  Image 
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 
+import { styles } from '../../styles';
+import { Imagen } from '../../components/imagen';
+import { peliculas } from '../../data';
 
-export const Ficha = ({ navigation }) => {
+export const Ficha = ({ navigation, route }) => {
+  const { nombre } = route.params || {};
+  const [pelicula, setPelicula] = useState({});
+
+  useEffect(() => {
+    if (nombre) {
+      setPelicula(
+        peliculas.find(({ originalTitle }) => originalTitle.includes(nombre)) ||
+          {}
+      );
+    }
+  }, [nombre]);
+
   return (
     <View>
-      <Image style={styles.imagen} source={{ uri: ImagenPeli(props) }} />
-      <Text>Nombre: {props.originalTitle}</Text>
+      <Imagen uri={pelicula.posterURL} />
+      <Text>Nombre: {pelicula.originalTitle}</Text>
       <Text>Reparto:</Text>
-      <Text>Año: {props.year}</Text>
-      <Text>Descripción: {props.overview}</Text>
-      <Button title="Buscar Otra" />
-      <Button title="Agregar a Favoritas" />
+      {(pelicula.cast || []).map((actor) => (
+        <Text key={actor}>{actor}</Text>
+      ))}
+      <Text>Año: {pelicula.year}</Text>
+      <Text>Descripción: {pelicula.overview}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <Text style={styles.text}>Buscar otra película</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => null}>
+        <Text style={styles.text}>Agregar a favoritas</Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
-// Cambié el nombre porque los componentes se nombran en mayúscula por convención
-const ImagenPeli = (props) => {
-  return props.posterURLs[original];
-};
-
-const styles = StyleSheet.create({
-  imagen: {
-    width: 200,
-    height: 200,
-  },
-});

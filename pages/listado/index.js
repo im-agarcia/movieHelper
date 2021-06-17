@@ -1,43 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, Image, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
 
-// Cambié el nombre porque los componentes se nombran en mayúscula por convención
+import { styles } from '../../styles';
+import { Imagen } from '../../components/imagen';
+import { peliculas } from '../../data';
+
 export function Listado({ navigation, route }) {
-  // Refactor: incluir el if dentro del useEffect, hacerlo al revés no está recomendado:
-  // https://es.reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
-  const { nombre } = route.params || { nombre: '' };
-  
-    useEffect(() => {
-      if (nombre != '') {
-      navigation.setOptions({ title: 'Resultados de: ' + nombre });
-    }
-    }, []);
-  
+  const { nombre } = route.params || {};
+  const [pelicula, setPelicula] = useState({});
+  useEffect(() => {
+    // if (nombre) {
+    navigation.setOptions({ title: 'Resultados para: ' + nombre });
+    setPelicula(
+      peliculas.find(({ originalTitle }) => originalTitle.includes(nombre)) ||
+        {}
+    );
+    // }
+  }, [nombre]);
+
   return (
-    <View style={Style.container}>
-      {/* <Button title= {props.title} type= {peliculaIcono} onClick={ficha(props)}/> */}
-      <Text>Title: {nombre}</Text>
-      <Button
-        title="Go Back"
-        onPress={() => {
-          navigation.goBack();
-        }}
-      />
+    <View style={styles.container}>
+      {nombre ? (
+        pelicula.originalTitle ? (
+          <Pelicula navigation={navigation} pelicula={pelicula} />
+        ) : (
+          <Text style={styles.text}>
+            No se encontraron películas con ese nombre
+          </Text>
+        )
+      ) : (
+        peliculas.map((p) => <Pelicula navigation={navigation} pelicula={p} />)
+      )}
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.text}>Volver</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
 }
 
-// Refactor: crear un file por componente
-const PeliculaIcono = (props) => {
-  return props.posterURLs[original];
+const Pelicula = ({ navigation, pelicula }) => {
+  return (
+    <View>
+      <Text>Title: {pelicula.originalTitle}</Text>
+      <Imagen uri={pelicula.posterURL} />
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Ficha', { nombre: pelicula.originalTitle })
+        }
+      >
+        <Text style={styles.text}>{pelicula.originalTitle}</Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
-
-const Style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'azure',
-  },
-});
