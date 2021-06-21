@@ -5,8 +5,10 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import { styles } from '../../styles';
 
-// const LOGIN_ERROR = 'Los datos ingresados no son válidos';
+const LOGIN_ERROR = 'Los datos ingresados no son válidos';
 const GOOGLE_ERROR = 'No fue posible autenticarte con Google';
+const ERROR = 'Hubo un error al intentar validar tus datos';
+const API = 'http://localhost:3000';
 
 export const Login = ({ navigation }) => {
   const [loginData, setLoginData] = useState({
@@ -16,6 +18,39 @@ export const Login = ({ navigation }) => {
   const [error, setError] = useState('');
 
   const logIn = async () => {
+    setError('');
+
+    try {
+      // Verificamos si el user y la password son correctos
+      const response = await fetch(
+        `${API}/users/${loginData.email}/${loginData.password}`
+      );
+      const verifiedUser = await response.json();
+
+      if (!verifiedUser.message) {
+        setLoginData({
+          email: '',
+          password: '',
+        });
+
+        // Si lo son, navegar a Home
+        navigation.navigate('Home', { nombreUsuario: verifiedUser.nombre });
+      } else {
+        // Si no lo son, activar el flag de error
+        setError(LOGIN_ERROR);
+      }
+    } catch {
+      setError(ERROR);
+    }
+  };
+
+  const logInWithGoogle = async () => {
+    setError('');
+    setLoginData({
+      email: '',
+      password: '',
+    });
+
     try {
       const { type, user } = await Google.logInAsync({
         iosClientId:
@@ -25,18 +60,31 @@ export const Login = ({ navigation }) => {
       });
 
       if (type === 'success') {
-        // Llamar a la API correspondiente para verificar los datos (pasarle user)
+        try {
+          // Verificamos si el user existe
+          const response = await fetch(`${API}/users/${user.email}`);
+          const existingUser = await response.json();
+          console.log('existingUser', existingUser);
 
-        // Si la información es incorrecta, activar el flag de error
-        // setError(LOGIN_ERROR);
+          if (!existingUser.message) {
+            setLoginData({
+              email: '',
+              password: '',
+            });
 
-        // Si la información es correcta, navegar a Home
-        navigation.navigate('Home', { nombreUsuario: user.name });
+            // Si existe, navegar a Home
+            navigation.navigate('Home', { nombreUsuario: verifiedUser.nombre });
+          } else {
+            // Si no existe, activar el flag de error
+            setError(LOGIN_ERROR);
+          }
+        } catch {
+          setError(ERROR);
+        }
       } else {
         setError(GOOGLE_ERROR);
       }
-    } catch (e) {
-      console.log(e);
+    } catch {
       setError(GOOGLE_ERROR);
     }
   };
@@ -75,36 +123,10 @@ export const Login = ({ navigation }) => {
           setLoginData({ ...loginData, password });
         }}
       />
-      <TouchableOpacity
-        style={styles.longButton}
-        onPress={() => {
-          setError('');
-          // Llamar a la API correspondiente para verificar los datos (pasarle loginData)
-
-          // Si la información es incorrecta, activar el flag de error
-          // setError(LOGIN_ERROR);
-
-          // Si la información es correcta, navegar a Home
-          navigation.navigate('Home', { nombreUsuario: loginData.nombre });
-          setLoginData({
-            email: '',
-            password: '',
-          });
-        }}
-      >
+      <TouchableOpacity style={styles.longButton} onPress={logIn}>
         <Text style={styles.longButtonText}>INGRESAR</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.rowContainer}
-        onPress={() => {
-          setLoginData({
-            email: '',
-            password: '',
-          });
-          setError('');
-          logIn();
-        }}
-      >
+      <TouchableOpacity style={styles.rowContainer} onPress={logInWithGoogle}>
         <FontAwesome name="google" size={24} color="white" />
         <Text style={styles.buttonText}>Ingresar con Google</Text>
       </TouchableOpacity>

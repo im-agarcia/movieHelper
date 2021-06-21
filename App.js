@@ -1,12 +1,17 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+// import { config } from 'dotenv';
 
 import { Home, Listado, Login, SignUp, Ficha } from './pages';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  // useEffect(() => {
+  //   config();
+  // }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={'Login'}>
