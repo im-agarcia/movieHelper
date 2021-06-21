@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import {
   View,
   Image,
@@ -13,6 +13,12 @@ import { styles } from '../../styles';
 export function Home({ navigation }) {
   const [nombre, setNombre] = useState('');
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Image
@@ -24,7 +30,7 @@ export function Home({ navigation }) {
         style={styles.textInput}
         value={nombre}
         onChangeText={setNombre}
-        placeholder="Ingrese el nombre de la película"
+        placeholder="Ingresá el nombre de la película"
         placeholderTextColor="lightgray"
       />
       <TouchableOpacity
@@ -47,6 +53,12 @@ export function Home({ navigation }) {
           />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        style={ownStyles.button}
+        onPress={() => navigation.navigate('Login')}
+      >
+        <Text style={styles.buttonText}>Cerrar sesión</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -57,5 +69,9 @@ const ownStyles = StyleSheet.create({
     height: 50,
     resizeMode: 'contain',
     marginHorizontal: 15,
+  },
+  button: {
+    position: 'absolute',
+    bottom: '10%',
   },
 });

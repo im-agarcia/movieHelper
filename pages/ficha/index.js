@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
 import { styles } from '../../styles';
 import { peliculas } from '../../data';
@@ -7,6 +8,7 @@ import { peliculas } from '../../data';
 export const Ficha = ({ navigation, route }) => {
   const { nombre } = route.params || {};
   const [pelicula, setPelicula] = useState({});
+  const [favorita, setFavorita] = useState(false);
 
   useEffect(() => {
     if (nombre) {
@@ -16,6 +18,12 @@ export const Ficha = ({ navigation, route }) => {
       );
     }
   }, [nombre]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackTitle: 'Listado',
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -38,20 +46,34 @@ export const Ficha = ({ navigation, route }) => {
         <Text style={ownStyles.text}>Año: {pelicula.year}</Text>
         <Text style={ownStyles.text}>Descripción: {pelicula.overview}</Text>
         <View style={ownStyles.rowContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Text style={ownStyles.buttonText}>Buscar otra película</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => null}>
-            <Text style={ownStyles.buttonText}>Agregar a favoritas</Text>
+          <TouchableOpacity onPress={() => setFavorita(!favorita)}>
+            {favorita ? (
+              <Text style={ownStyles.buttonText}>
+                Eliminar de favoritas{' '}
+                <FontAwesome name="star" size={12} color="black" />
+              </Text>
+            ) : (
+              <Text style={ownStyles.buttonText}>
+                Agregar a favoritas{' '}
+                <Feather name="star" size={12} color="black" />
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity
+        style={styles.longButton}
+        onPress={() => navigation.navigate('Home')}
+      >
+        <Text style={ownStyles.longButton}>Buscar otra película</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const ownStyles = StyleSheet.create({
   container: {
+    height: 500,
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: 'white',
@@ -71,6 +93,7 @@ const ownStyles = StyleSheet.create({
     color: 'black',
     fontSize: 13,
     fontWeight: '600',
+    textAlignVertical: 'center',
     margin: 10,
     marginTop: '10%',
   },

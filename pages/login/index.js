@@ -21,7 +21,7 @@ export const Login = ({ navigation }) => {
       <TextInput
         style={styles.textInput}
         value={loginData.email}
-        placeholder="E-mail..."
+        placeholder="E-mail"
         placeholderTextColor="lightgray"
         textContentType="username"
         onChangeText={(email) => setLoginData({ ...loginData, email })}
@@ -30,7 +30,7 @@ export const Login = ({ navigation }) => {
       <TextInput
         style={styles.textInput}
         value={loginData.password}
-        placeholder="Password..."
+        placeholder="Password"
         placeholderTextColor="lightgray"
         textContentType="password"
         onChangeText={(password) => setLoginData({ ...loginData, password })}

@@ -21,7 +21,7 @@ export const SignUp = ({ navigation }) => {
       <TextInput
         style={styles.textInput}
         value={loginData.email}
-        placeholder="E-mail..."
+        placeholder="E-mail"
         placeholderTextColor="lightgray"
         textContentType="username"
         onChangeText={(email) => setLoginData({ ...loginData, email })}
@@ -30,7 +30,7 @@ export const SignUp = ({ navigation }) => {
       <TextInput
         style={styles.textInput}
         value={loginData.password}
-        placeholder="Password..."
+        placeholder="Password"
         placeholderTextColor="lightgray"
         textContentType="password"
         onChangeText={(password) => setLoginData({ ...loginData, password })}
@@ -48,6 +48,9 @@ export const SignUp = ({ navigation }) => {
         }}
       >
         <Text style={styles.longButtonText}>CREAR CUENTA</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.buttonText}>Cancelar</Text>
       </TouchableOpacity>
       {error && (
         <Text style={styles.error}>Hubo un error creando tu cuenta</Text>

@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     fontWeight: '300',
   },
   longButton: {
-    width: '80%',
+    width: '70%',
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -39,13 +39,14 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
     fontWeight: '600',
+    textAlignVertical: 'center',
     margin: 10,
   },
   longButtonText: {
     color: 'black',
     fontSize: 14,
     fontWeight: '500',
-    margin: 10,
+    margin: 5,
   },
   text: {
     color: 'white',
@@ -64,8 +65,8 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   },
   logo: {
-    width: '80%',
-    height: 200,
+    width: '70%',
+    height: 175,
     marginBottom: 10,
     resizeMode: 'contain',
   },
@@ -82,7 +83,7 @@ export const styles = StyleSheet.create({
   },
   image: {
     width: 300,
-    height: 300,
+    height: 275,
     marginBottom: 10,
     resizeMode: 'contain',
   },
