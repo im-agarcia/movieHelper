@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import { styles } from '../../styles';
 
@@ -12,7 +12,12 @@ export const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.logo}
+        source={require('../../assets/MovieHelper.png')}
+      />
       <Text style={styles.title}>Ingresar a la plataforma</Text>
+      <Text style={styles.label}>E-mail</Text>
       <TextInput
         style={styles.textInput}
         value={loginData.email}
@@ -21,6 +26,7 @@ export const Login = ({ navigation }) => {
         textContentType="username"
         onChangeText={(email) => setLoginData({ ...loginData, email })}
       />
+      <Text style={styles.label}>Password</Text>
       <TextInput
         style={styles.textInput}
         value={loginData.password}
@@ -30,7 +36,7 @@ export const Login = ({ navigation }) => {
         onChangeText={(password) => setLoginData({ ...loginData, password })}
       />
       <TouchableOpacity
-        style={styles.button}
+        style={styles.longButton}
         onPress={() => {
           // Llamar a la API correspondiente para verificar los datos (pasarle loginData)
 
@@ -41,10 +47,10 @@ export const Login = ({ navigation }) => {
           navigation.navigate('Home');
         }}
       >
-        <Text style={styles.text}>INGRESAR</Text>
+        <Text style={styles.longButtonText}>INGRESAR</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.text}>Crear cuenta</Text>
+        <Text style={styles.buttonText}>Crear cuenta</Text>
       </TouchableOpacity>
       {error && (
         <Text style={styles.error}>Los datos ingresados no son válidos</Text>

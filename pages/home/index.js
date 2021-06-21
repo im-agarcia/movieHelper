@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 
 import { styles } from '../../styles';
 
@@ -8,7 +15,11 @@ export function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Movie Helper</Text>
+      <Image
+        style={styles.logoSmall}
+        source={require('../../assets/MovieHelper-small.png')}
+      />
+      <Text style={styles.title}>Buscador de películas</Text>
       <TextInput
         style={styles.textInput}
         value={nombre}
@@ -17,18 +28,34 @@ export function Home({ navigation }) {
         placeholderTextColor="lightgray"
       />
       <TouchableOpacity
+        style={styles.longButton}
         onPress={() => navigation.navigate('Listado', { nombre })}
       >
-        <Text style={styles.text}>Buscar</Text>
+        <Text style={styles.longButtonText}>Buscar</Text>
       </TouchableOpacity>
-      <View style={styles.buttonContainer}>
+      <View style={styles.rowContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Listado')}>
-          <Text style={styles.text}>Netflix</Text>
+          <Image
+            style={ownStyles.thumbnail}
+            source={require('../../assets/netflix.png')}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Listado')}>
-          <Text style={styles.text}>Prime Video</Text>
+          <Image
+            style={ownStyles.thumbnail}
+            source={require('../../assets/prime-video.png')}
+          />
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+const ownStyles = StyleSheet.create({
+  thumbnail: {
+    width: 75,
+    height: 50,
+    resizeMode: 'contain',
+    marginHorizontal: 15,
+  },
+});

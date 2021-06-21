@@ -1,56 +1,91 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 
 import { styles } from '../../styles';
-import { Imagen } from '../../components/imagen';
+import { Pelicula } from '../../components';
 import { peliculas } from '../../data';
+
+const RESULTADOS = 'Resultados para: ';
+const BUSCADOR = 'Listado de películas';
 
 export function Listado({ navigation, route }) {
   const { nombre } = route.params || {};
-  const [pelicula, setPelicula] = useState({});
+  const [peliculasEncontradas, setPeliculasEncontradas] = useState([]);
   useEffect(() => {
-    // if (nombre) {
-    navigation.setOptions({ title: 'Resultados para: ' + nombre });
-    setPelicula(
-      peliculas.find(({ originalTitle }) => originalTitle.includes(nombre)) ||
-        {}
-    );
-    // }
+    if (nombre) {
+      navigation.setOptions({ title: RESULTADOS + nombre });
+      setPeliculasEncontradas(
+        peliculas.filter(({ originalTitle }) =>
+          originalTitle.toUpperCase().includes(nombre.toUpperCase())
+        )
+      );
+    }
   }, [nombre]);
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.logoSmall}
+        source={require('../../assets/MovieHelper-small.png')}
+      />
+      <Text style={styles.title}>
+        {nombre ? RESULTADOS + nombre : BUSCADOR}
+      </Text>
       {nombre ? (
-        pelicula.originalTitle ? (
-          <Pelicula navigation={navigation} pelicula={pelicula} />
+        peliculasEncontradas.length ? (
+          <ScrollView>
+            <View style={styles.rowContainer}>
+              {peliculasEncontradas.map((p, i) => (
+                <View style={ownStyles.container} key={`film${i}`}>
+                  <Pelicula
+                    key={`film${i}`}
+                    navigation={navigation}
+                    pelicula={p}
+                  />
+                </View>
+              ))}
+            </View>
+          </ScrollView>
         ) : (
           <Text style={styles.text}>
             No se encontraron películas con ese nombre
           </Text>
         )
       ) : (
-        peliculas.map((p) => <Pelicula navigation={navigation} pelicula={p} />)
+        <ScrollView>
+          <View style={styles.rowContainer}>
+            {peliculas.map((p, i) => (
+              <View style={ownStyles.container} key={`film${i}`}>
+                <Pelicula
+                  key={`film${i}`}
+                  navigation={navigation}
+                  pelicula={p}
+                />
+              </View>
+            ))}
+          </View>
+        </ScrollView>
       )}
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.text}>Volver</Text>
+      <TouchableOpacity
+        style={styles.longButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.longButtonText}>Volver</Text>
       </TouchableOpacity>
-      <StatusBar style="auto" />
     </View>
   );
 }
 
-const Pelicula = ({ navigation, pelicula }) => {
-  return (
-    <View>
-      <Text>Title: {pelicula.originalTitle}</Text>
-      <Imagen uri={pelicula.posterURL} />
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('Ficha', { nombre: pelicula.originalTitle })
-        }
-      >
-        <Text style={styles.text}>{pelicula.originalTitle}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
+const ownStyles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    width: '50%',
+  },
+});

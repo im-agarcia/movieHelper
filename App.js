@@ -33,7 +33,7 @@ export default function App() {
         <Stack.Screen
           name="Ficha"
           component={Ficha}
-          options={{ title: 'Ficha de película' }}
+          options={{ title: 'Ficha de la película' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

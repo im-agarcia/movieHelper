@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import { styles } from '../../styles';
 
@@ -12,6 +12,10 @@ export const SignUp = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.logo}
+        source={require('../../assets/MovieHelper.png')}
+      />
       <Text style={styles.title}>Ingresá tus datos</Text>
       <Text style={styles.label}>E-mail</Text>
       <TextInput
@@ -32,7 +36,7 @@ export const SignUp = ({ navigation }) => {
         onChangeText={(password) => setLoginData({ ...loginData, password })}
       />
       <TouchableOpacity
-        style={styles.button}
+        style={styles.longButton}
         onPress={() => {
           // Llamar a la API correspondiente para crear una cuenta (pasarle loginData)
 
@@ -43,7 +47,7 @@ export const SignUp = ({ navigation }) => {
           navigation.navigate('Home');
         }}
       >
-        <Text style={styles.text}>CREAR CUENTA</Text>
+        <Text style={styles.longButtonText}>CREAR CUENTA</Text>
       </TouchableOpacity>
       {error && (
         <Text style={styles.error}>Hubo un error creando tu cuenta</Text>
