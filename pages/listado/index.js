@@ -16,29 +16,36 @@ const RESULTADOS = 'Resultados para: ';
 const BUSCADOR = 'Listado de películas';
 
 export function Listado({ navigation, route }) {
-  const { nombre } = route.params || {};
+  const { nombrePelicula, nombreUsuario } = route.params || {};
   const [peliculasEncontradas, setPeliculasEncontradas] = useState([]);
   useEffect(() => {
-    if (nombre) {
-      navigation.setOptions({ title: RESULTADOS + nombre });
+    if (nombrePelicula) {
+      navigation.setOptions({ title: RESULTADOS + nombrePelicula });
       setPeliculasEncontradas(
         peliculas.filter(({ originalTitle }) =>
-          originalTitle.toUpperCase().includes(nombre.toUpperCase())
+          originalTitle.toUpperCase().includes(nombrePelicula.toUpperCase())
         )
       );
     }
-  }, [nombre]);
+  }, [nombrePelicula]);
 
   return (
     <View style={styles.container}>
+      {nombreUsuario ? (
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => null}>
+            <Text style={styles.buttonText}>{`Hola, ${nombreUsuario}`}</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
       <Image
         style={styles.logoSmall}
         source={require('../../assets/MovieHelper-small.png')}
       />
       <Text style={styles.title}>
-        {nombre ? RESULTADOS + nombre : BUSCADOR}
+        {nombrePelicula ? RESULTADOS + nombrePelicula : BUSCADOR}
       </Text>
-      {nombre ? (
+      {nombrePelicula ? (
         peliculasEncontradas.length ? (
           <ScrollView>
             <View style={styles.rowContainer}>
@@ -48,6 +55,7 @@ export function Listado({ navigation, route }) {
                     key={`film${i}`}
                     navigation={navigation}
                     pelicula={p}
+                    usuario={nombreUsuario}
                   />
                 </View>
               ))}
@@ -67,6 +75,7 @@ export function Listado({ navigation, route }) {
                   key={`film${i}`}
                   navigation={navigation}
                   pelicula={p}
+                  usuario={nombreUsuario}
                 />
               </View>
             ))}

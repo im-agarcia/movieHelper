@@ -6,18 +6,19 @@ import { styles } from '../../styles';
 import { peliculas } from '../../data';
 
 export const Ficha = ({ navigation, route }) => {
-  const { nombre } = route.params || {};
+  const { nombrePelicula, nombreUsuario } = route.params || {};
   const [pelicula, setPelicula] = useState({});
   const [favorita, setFavorita] = useState(false);
 
   useEffect(() => {
-    if (nombre) {
+    if (nombrePelicula) {
       setPelicula(
-        peliculas.find(({ originalTitle }) => originalTitle.includes(nombre)) ||
-          {}
+        peliculas.find(({ originalTitle }) =>
+          originalTitle.includes(nombrePelicula)
+        ) || {}
       );
     }
-  }, [nombre]);
+  }, [nombrePelicula]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -27,6 +28,13 @@ export const Ficha = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      {nombreUsuario ? (
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => null}>
+            <Text style={styles.buttonText}>{`Hola, ${nombreUsuario}`}</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
       <Image
         style={styles.logoSmall}
         source={require('../../assets/MovieHelper-small.png')}
@@ -73,9 +81,7 @@ export const Ficha = ({ navigation, route }) => {
 
 const ownStyles = StyleSheet.create({
   container: {
-    height: 500,
-    display: 'flex',
-    flexDirection: 'column',
+    flexGrow: 1,
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
@@ -95,6 +101,5 @@ const ownStyles = StyleSheet.create({
     fontWeight: '600',
     textAlignVertical: 'center',
     margin: 10,
-    marginTop: '10%',
   },
 });

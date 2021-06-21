@@ -8,6 +8,15 @@ export const styles = StyleSheet.create({
     backgroundColor: 'black',
     paddingVertical: '10%',
   },
+  header: {
+    position: 'absolute',
+    top: 20,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
   rowContainer: {
     width: '100%',
     flexDirection: 'row',
@@ -32,8 +41,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
     borderRadius: 25,
-    margin: 10,
-    marginTop: '5%',
+    margin: '5%',
   },
   buttonText: {
     color: 'white',

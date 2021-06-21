@@ -4,20 +4,27 @@ import { Feather, FontAwesome } from '@expo/vector-icons';
 
 import { styles } from '../../styles';
 
-export const Pelicula = ({ navigation, pelicula }) => {
+export const Pelicula = ({ navigation, pelicula, usuario }) => {
   const [favorita] = useState(true);
+
   return (
     <View style={ownStyles.container}>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('Ficha', { nombre: pelicula.originalTitle })
+          navigation.navigate('Ficha', {
+            nombrePelicula: pelicula.originalTitle,
+            nombreUsuario: usuario,
+          })
         }
       >
         <Image style={styles.thumbnail} source={{ uri: pelicula.posterURL }} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('Ficha', { nombre: pelicula.originalTitle })
+          navigation.navigate('Ficha', {
+            nombrePelicula: pelicula.originalTitle,
+            nombreUsuario: usuario,
+          })
         }
       >
         <Text style={styles.buttonText}>
