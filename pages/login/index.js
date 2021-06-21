@@ -27,7 +27,7 @@ export const Login = ({ navigation }) => {
       );
       const verifiedUser = await response.json();
 
-      if (!verifiedUser.message) {
+      if (!verifiedUser?.message) {
         setLoginData({
           email: '',
           password: '',
@@ -39,7 +39,7 @@ export const Login = ({ navigation }) => {
         // Si no lo son, activar el flag de error
         setError(LOGIN_ERROR);
       }
-    } catch {
+    } catch (e) {
       setError(ERROR);
     }
   };
@@ -66,25 +66,26 @@ export const Login = ({ navigation }) => {
           const existingUser = await response.json();
           console.log('existingUser', existingUser);
 
-          if (!existingUser.message) {
-            setLoginData({
-              email: '',
-              password: '',
-            });
+          if (!existingUser?.message) {
+            console.log('No hubo error, voy a navegar');
 
             // Si existe, navegar a Home
-            navigation.navigate('Home', { nombreUsuario: verifiedUser.nombre });
+            navigation.navigate('Home', { nombreUsuario: existingUser.nombre });
           } else {
+            console.log('Hubo un error no voy a navegar');
+
             // Si no existe, activar el flag de error
             setError(LOGIN_ERROR);
           }
-        } catch {
-          setError(ERROR);
+        } catch (e) {
+          console.log('Error en el try', e);
+
+          setError(e);
         }
       } else {
         setError(GOOGLE_ERROR);
       }
-    } catch {
+    } catch (e) {
       setError(GOOGLE_ERROR);
     }
   };
