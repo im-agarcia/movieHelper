@@ -3,6 +3,9 @@ import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import { styles } from '../../styles';
 
+const SIGNIN_ERROR = 'Error al crear usuario';
+const API = 'http://localhost:3000';
+
 export const SignUp = ({ navigation }) => {
   const [loginData, setLoginData] = useState({
     nombre: '',
@@ -11,6 +14,52 @@ export const SignUp = ({ navigation }) => {
     password: '',
   });
   const [error, setError] = useState(false);
+
+  const signIn = async () => {
+    setError('');
+
+    try {
+      
+      const Data = {
+        nombre: loginData.nombre,
+        apellido: loginData.apellido,
+        email: loginData.email,
+        password: loginData.password
+      };
+
+      const jsonBody = JSON.stringify(Data)
+
+      // Mando a crear el user
+      const response = await fetch(
+        `${API}/users`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },
+          body: jsonBody
+        }
+      );
+      
+      const createdUser = await response.json();
+
+      if (!createdUser?.message) {
+        console.log(createdUser)
+        setLoginData({
+          nombre: '',
+          apellido: '',
+          email: '',
+          password: '',
+        });
+
+        // Si la creacion fue exitosa, vamos a la home
+        navigation.navigate('Home', { nombreUsuario: createdUser.nombre });
+      } else {
+        setError(SIGNIN_ERROR);
+      }
+    } catch (e) {
+      setError(SIGNIN_ERROR);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -60,21 +109,7 @@ export const SignUp = ({ navigation }) => {
       />
       <TouchableOpacity
         style={styles.longButton}
-        onPress={() => {
-          // Llamar a la API correspondiente para crear una cuenta (pasarle loginData)
-
-          // Si hubo algún error, activar el flag de error
-          // setError(true);
-
-          // Si la cuenta se creó correctamente, navegar a Home
-          navigation.navigate('Home', { nombreUsuario: loginData.nombre });
-          setLoginData({
-            nombre: '',
-            apellido: '',
-            email: '',
-            password: '',
-          });
-        }}
+        onPress={signIn}
       >
         <Text style={styles.longButtonText}>CREAR CUENTA</Text>
       </TouchableOpacity>
@@ -91,7 +126,7 @@ export const SignUp = ({ navigation }) => {
       >
         <Text style={styles.buttonText}>Cancelar</Text>
       </TouchableOpacity>
-      {error && (
+      {!!error && (
         <Text style={styles.error}>Hubo un error creando tu cuenta</Text>
       )}
     </View>
