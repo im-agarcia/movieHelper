@@ -100,6 +100,7 @@ const ownStyles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     textAlignVertical: 'center',
-    margin: 10,
+    margin: 0,
+    marginTop: 10,
   },
 });

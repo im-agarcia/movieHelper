@@ -55,7 +55,7 @@ export const Login = ({ navigation }) => {
         placeholder="E-mail"
         placeholderTextColor="lightgray"
         textContentType="username"
-        autoCapitalize={false}
+        autoCapitalize="none"
         onChangeText={(email) => {
           setError('');
           setLoginData({ ...loginData, email });
@@ -69,7 +69,7 @@ export const Login = ({ navigation }) => {
         placeholderTextColor="lightgray"
         textContentType="password"
         secureTextEntry={true}
-        autoCapitalize={false}
+        autoCapitalize="none"
         onChangeText={(password) => {
           setError('');
           setLoginData({ ...loginData, password });

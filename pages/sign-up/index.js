@@ -44,7 +44,7 @@ export const SignUp = ({ navigation }) => {
         placeholder="E-mail"
         placeholderTextColor="lightgray"
         textContentType="username"
-        autoCapitalize={false}
+        autoCapitalize="none"
         onChangeText={(email) => setLoginData({ ...loginData, email })}
       />
       <Text style={styles.label}>Password</Text>
@@ -54,7 +54,7 @@ export const SignUp = ({ navigation }) => {
         placeholder="Password"
         placeholderTextColor="lightgray"
         textContentType="newPassword"
-        autoCapitalize={false}
+        autoCapitalize="none"
         secureTextEntry={true}
         onChangeText={(password) => setLoginData({ ...loginData, password })}
       />

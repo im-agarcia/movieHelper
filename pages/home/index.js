@@ -40,7 +40,7 @@ export function Home({ navigation, route }) {
         onChangeText={setNombrePelicula}
         placeholder="Ingresá el nombre de la película"
         placeholderTextColor="lightgray"
-        autoCapitalize={false}
+        autoCapitalize="none"
       />
       <TouchableOpacity
         style={styles.longButton}

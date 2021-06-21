@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: 20,
+    top: 10,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -81,6 +81,7 @@ export const styles = StyleSheet.create({
   logoSmall: {
     width: 100,
     height: 100,
+    marginTop: 10,
     marginBottom: 20,
     borderRadius: 50,
   },
