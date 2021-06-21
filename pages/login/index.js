@@ -34,7 +34,7 @@ export const Login = ({ navigation }) => {
         });
 
         // Si lo son, navegar a Home
-        navigation.navigate('Home', { nombreUsuario: verifiedUser.nombre });
+        navigation.navigate('Home', { usuario: verifiedUser });
       } else {
         // Si no lo son, activar el flag de error
         setError(LOGIN_ERROR);
@@ -64,23 +64,16 @@ export const Login = ({ navigation }) => {
           // Verificamos si el user existe
           const response = await fetch(`${API}/users/${user.email}`);
           const existingUser = await response.json();
-          console.log('existingUser', existingUser);
 
           if (!existingUser?.message) {
-            console.log('No hubo error, voy a navegar');
-
             // Si existe, navegar a Home
-            navigation.navigate('Home', { nombreUsuario: existingUser.nombre });
+            navigation.navigate('Home', { usuario: existingUser });
           } else {
-            console.log('Hubo un error no voy a navegar');
-
             // Si no existe, activar el flag de error
             setError(LOGIN_ERROR);
           }
         } catch (e) {
-          console.log('Error en el try', e);
-
-          setError(e);
+          setError(ERROR);
         }
       } else {
         setError(GOOGLE_ERROR);

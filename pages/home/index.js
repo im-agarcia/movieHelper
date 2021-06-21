@@ -11,7 +11,7 @@ import {
 import { styles } from '../../styles';
 
 export function Home({ navigation, route }) {
-  const { nombreUsuario } = route.params || {};
+  const { usuario } = route.params || {};
   const [nombrePelicula, setNombrePelicula] = useState('');
 
   useLayoutEffect(() => {
@@ -22,10 +22,10 @@ export function Home({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {nombreUsuario ? (
+      {usuario ? (
         <View style={styles.header}>
           <TouchableOpacity onPress={() => null}>
-            <Text style={styles.buttonText}>{`Hola, ${nombreUsuario}`}</Text>
+            <Text style={styles.buttonText}>{`Hola, ${usuario.nombre}`}</Text>
           </TouchableOpacity>
         </View>
       ) : null}
@@ -45,7 +45,7 @@ export function Home({ navigation, route }) {
       <TouchableOpacity
         style={styles.longButton}
         onPress={() =>
-          navigation.navigate('Listado', { nombreUsuario, nombrePelicula })
+          navigation.navigate('Listado', { usuario, nombrePelicula })
         }
       >
         <Text style={styles.longButtonText}>Buscar</Text>
@@ -53,7 +53,9 @@ export function Home({ navigation, route }) {
       <Text style={ownStyles.title}>Buscador por servicios de streaming</Text>
       <View style={styles.rowContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Listado', { nombreUsuario })}
+          onPress={() =>
+            navigation.navigate('Listado', { usuario, servicio: 'netflix' })
+          }
         >
           <Image
             style={ownStyles.thumbnail}
@@ -61,7 +63,9 @@ export function Home({ navigation, route }) {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Listado', { nombreUsuario })}
+          onPress={() =>
+            navigation.navigate('Listado', { usuario, servicio: 'prime' })
+          }
         >
           <Image
             style={ownStyles.thumbnail}

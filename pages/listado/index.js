@@ -10,31 +10,57 @@ import {
 
 import { styles } from '../../styles';
 import { Pelicula } from '../../components';
-import { peliculas } from '../../data';
 
 const RESULTADOS = 'Resultados para: ';
 const BUSCADOR = 'Listado de películas';
+const API = 'http://localhost:3000';
 
 export function Listado({ navigation, route }) {
-  const { nombrePelicula, nombreUsuario } = route.params || {};
+  const { nombrePelicula, usuario, servicio } = route.params || {};
+  const [loading, setLoading] = useState(false);
   const [peliculasEncontradas, setPeliculasEncontradas] = useState([]);
+
+  const getPeliculas = async (nombrePelicula, servicio) => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${API}/movies${servicio ? `?service=${servicio}` : ''}`
+      );
+      const peliculas = await response.json();
+
+      if (peliculas.length) {
+        setPeliculasEncontradas(
+          nombrePelicula
+            ? peliculas.filter(({ originalTitle }) =>
+                originalTitle
+                  .toUpperCase()
+                  .includes(nombrePelicula.toUpperCase())
+              )
+            : peliculas
+        );
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (nombrePelicula) {
       navigation.setOptions({ title: RESULTADOS + nombrePelicula });
-      setPeliculasEncontradas(
-        peliculas.filter(({ originalTitle }) =>
-          originalTitle.toUpperCase().includes(nombrePelicula.toUpperCase())
-        )
-      );
     }
-  }, [nombrePelicula]);
+
+    getPeliculas(nombrePelicula, servicio);
+  }, [nombrePelicula, servicio]);
 
   return (
     <View style={styles.container}>
-      {nombreUsuario ? (
+      {usuario ? (
         <View style={styles.header}>
           <TouchableOpacity onPress={() => null}>
-            <Text style={styles.buttonText}>{`Hola, ${nombreUsuario}`}</Text>
+            <Text style={styles.buttonText}>{`Hola, ${usuario.nombre}`}</Text>
           </TouchableOpacity>
         </View>
       ) : null}
@@ -45,42 +71,27 @@ export function Listado({ navigation, route }) {
       <Text style={styles.title}>
         {nombrePelicula ? RESULTADOS + nombrePelicula : BUSCADOR}
       </Text>
-      {nombrePelicula ? (
-        peliculasEncontradas.length ? (
-          <ScrollView>
-            <View style={styles.rowContainer}>
-              {peliculasEncontradas.map((p, i) => (
-                <View style={ownStyles.container} key={`film${i}`}>
-                  <Pelicula
-                    key={`film${i}`}
-                    navigation={navigation}
-                    pelicula={p}
-                    usuario={nombreUsuario}
-                  />
-                </View>
-              ))}
-            </View>
-          </ScrollView>
-        ) : (
-          <Text style={styles.text}>
-            No se encontraron películas con ese nombre
-          </Text>
-        )
-      ) : (
+      {loading ? (
+        <Text style={styles.text}>Estamos buscando...</Text>
+      ) : peliculasEncontradas.length ? (
         <ScrollView>
           <View style={styles.rowContainer}>
-            {peliculas.map((p, i) => (
+            {peliculasEncontradas.map((p, i) => (
               <View style={ownStyles.container} key={`film${i}`}>
                 <Pelicula
                   key={`film${i}`}
                   navigation={navigation}
                   pelicula={p}
-                  usuario={nombreUsuario}
+                  usuario={usuario}
                 />
               </View>
             ))}
           </View>
         </ScrollView>
+      ) : (
+        <Text style={styles.text}>
+          No se encontraron películas con ese nombre
+        </Text>
       )}
       <TouchableOpacity
         style={styles.longButton}

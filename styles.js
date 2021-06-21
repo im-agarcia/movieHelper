@@ -91,8 +91,8 @@ export const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   image: {
-    width: 300,
-    height: 275,
+    width: 250,
+    height: 250,
     marginBottom: 10,
     resizeMode: 'contain',
   },
