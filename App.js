@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { config } from 'dotenv';
 
-import { Home, Listado, Login, SignUp, Ficha } from './pages';
+import { Home, Listado, Login, SignUp, Ficha, Favoritas } from './pages';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +39,11 @@ export default function App() {
           name="Ficha"
           component={Ficha}
           options={{ title: 'Ficha de la película' }}
+        />
+          <Stack.Screen
+          name="Favoritas"
+          component={Favoritas}
+          options={{ title: 'Tus películas favoritas' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

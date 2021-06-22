@@ -1,3 +1,4 @@
+export { Favoritas } from './favoritas';
 export { Ficha } from './ficha';
 export { Home } from './home';
 export { Listado } from './listado';

@@ -3,7 +3,7 @@ import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import { styles } from '../../styles';
 
-const SIGNIN_ERROR = 'Error al crear usuario';
+const SIGNUP_ERROR = 'Error al crear usuario';
 const API = 'http://localhost:3000';
 
 export const SignUp = ({ navigation }) => {

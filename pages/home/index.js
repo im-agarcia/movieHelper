@@ -24,7 +24,7 @@ export function Home({ navigation, route }) {
     <View style={styles.container}>
       {usuario ? (
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => null}>
+           <TouchableOpacity onPress={() => navigation.navigate('Favoritas', { usuario })}>
             <Text style={styles.buttonText}>{`Hola, ${usuario.nombre}`}</Text>
           </TouchableOpacity>
         </View>
