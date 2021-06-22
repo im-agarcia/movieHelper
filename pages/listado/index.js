@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { styles } from '../../styles';
+import { getUser } from '../../services';
 import { Pelicula } from '../../components';
 
 const RESULTADOS = 'Resultados para: ';
@@ -16,27 +17,24 @@ const BUSCADOR = 'Listado de películas';
 const API = 'http://localhost:3000';
 
 export function Listado({ navigation, route }) {
-  const { nombrePelicula, usuario, servicio } = route.params || {};
+  const { nombrePelicula, servicio } = route.params;
+  const [usuario, setUsuario] = useState({});  
   const [loading, setLoading] = useState(false);
   const [peliculasEncontradas, setPeliculasEncontradas] = useState([]);
 
-  const getPeliculas = async (nombrePelicula, servicio) => {
+  const getPeliculas = async (name, service) => {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `${API}/movies${servicio ? `?service=${servicio}` : ''}`
-      );
+      const response = await fetch(`${API}/movies${service ? `?service=${service}` : ''}`);
       const peliculas = await response.json();
 
       if (peliculas.length) {
         setPeliculasEncontradas(
-          nombrePelicula
+          name
             ? peliculas.filter(({ originalTitle }) =>
-                originalTitle
-                  .toUpperCase()
-                  .includes(nombrePelicula.toUpperCase())
-              )
+            originalTitle.toUpperCase().includes(name.toUpperCase())
+            )
             : peliculas
         );
       }
@@ -46,6 +44,10 @@ export function Listado({ navigation, route }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    getUser(route.params.usuario.email, setUsuario);
+  }, [route.params.usuario]);
 
   useEffect(() => {
     if (nombrePelicula) {
@@ -59,7 +61,9 @@ export function Listado({ navigation, route }) {
     <View style={styles.container}>
       {usuario ? (
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.navigate('Favoritas', { usuario })}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Favoritas', { usuario })}
+          >
             <Text style={styles.buttonText}>{`Hola, ${usuario.nombre}`}</Text>
           </TouchableOpacity>
         </View>
@@ -83,6 +87,7 @@ export function Listado({ navigation, route }) {
                   navigation={navigation}
                   pelicula={p}
                   usuario={usuario}
+                  goBackTitle="Listado"
                 />
               </View>
             ))}
@@ -95,7 +100,10 @@ export function Listado({ navigation, route }) {
       )}
       <TouchableOpacity
         style={styles.longButton}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          navigation.setParams({ usuario });
+          navigation.goBack();
+        }}
       >
         <Text style={styles.longButtonText}>Volver</Text>
       </TouchableOpacity>

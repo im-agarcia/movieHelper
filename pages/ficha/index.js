@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import {
   View,
   Image,
@@ -8,73 +8,76 @@ import {
   ScrollView,
 } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
+
 import { styles } from '../../styles';
+import { getUser } from '../../services';
 
 const API = 'http://localhost:3000';
 
 export const Ficha = ({ navigation, route }) => {
-  const { pelicula, usuario } = route.params || {};  
-  const [favorita, setFavorita] = useState(usuario.favoritos.some((f) => f.filmId == pelicula.imdbID));
+  const { pelicula, goBackTitle } = route.params;
+  const [usuario, setUsuario] = useState({});
+  const [favorita, setFavorita] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
-  const [usuarioActualizado, setUsuarioActualizado] = useState(usuario);
-  const addFavorita = async () => {
+
+  const addFavorita = async (u, p) => {
     try {
-      // Intento de agregar la película a favoritas
-      const response = await fetch(`${API}/users/${usuarioActualizado._id}`, {
+      // Intento agregar la película a favoritas
+      const response = await fetch(`${API}/users/${u._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
         },
-        body: JSON.stringify(pelicula),
+        body: JSON.stringify(p),
       });
       const updatedUser = await response.json();
 
       if (!updatedUser?.message) {
-          setFavorita(true);
-          setUsuarioActualizado(updatedUser);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-  
-    const removeFavorita = async () => {
-      try {
-        // Intento remover la película de favoritas
-        const response = await fetch(`${API}/users/${usuarioActualizado._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-          },
-          body: JSON.stringify(pelicula),
-        });
-        const updatedUser = await response.json();
-  
-        if (!updatedUser?.message) {
-          setFavorita(false);
-          setUsuarioActualizado(updatedUser);
+        setUsuario(updatedUser);
       }
     } catch (e) {
       console.log(e);
     }
   };
 
+  const removeFavorita = async (u, p) => {
+    try {
+      // Intento remover la película de favoritas
+      const response = await fetch(`${API}/users/${u._id}/${p.imdbID}`, {
+        method: 'PUT',
+      });
+      const updatedUser = await response.json();
+
+      if (!updatedUser?.message) {
+        setUsuario(updatedUser);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getUser(route.params.usuario.email, setUsuario);
+  }, [route.params.usuario]);
+
+  useEffect(() => {
+    setFavorita(usuario.favoritos?.some((f) => f.imdbID === pelicula.imdbID));
+  }, [usuario, pelicula]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerBackTitle: 'Listado',
+      headerBackTitle: goBackTitle,
     });
   }, [navigation]);
 
   return (
     <View style={styles.container}>
-      {usuarioActualizado ? (
+      {usuario ? (
         <View style={styles.header}>
-          <TouchableOpacity 
-            onPress={() => 
-            navigation.navigate('Favoritas', { usuario })}>
-            <Text
-              style={styles.buttonText}
-            >{`Hola, ${usuarioActualizado.nombre}`}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Favoritas', { usuario })}
+          >
+            <Text style={styles.buttonText}>{`Hola, ${usuario.nombre}`}</Text>
           </TouchableOpacity>
         </View>
       ) : null}
@@ -88,20 +91,20 @@ export const Ficha = ({ navigation, route }) => {
           <Image
             style={styles.image}
             source={{
-              uri: pelicula.posterURLs.original.replace('https', 'http'),
+              uri: pelicula.posterURLs?.original.replace('https', 'http'),
             }}
           />
         </View>
         <View style={ownStyles.rowContainer}>
-        {favorita ? (
-            <TouchableOpacity onPress={removeFavorita}>
+          {favorita ? (
+            <TouchableOpacity onPress={() => removeFavorita(usuario, pelicula)}>
               <Text style={ownStyles.buttonText}>
                 Eliminar de favoritas{' '}
                 <FontAwesome name="star" size={12} color="black" />
               </Text>
-              </TouchableOpacity>
-            ) : (
-            <TouchableOpacity onPress={addFavorita}>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => addFavorita(usuario, pelicula)}>
               <Text style={ownStyles.buttonText}>
                 Agregar a favoritas{' '}
                 <Feather name="star" size={12} color="black" />
@@ -110,7 +113,7 @@ export const Ficha = ({ navigation, route }) => {
           )}
         </View>
         <Text style={ownStyles.text}>Nombre: {pelicula.originalTitle}</Text>
-        <Text style={ownStyles.text}>Reparto: {pelicula.cast.join(', ')}</Text>
+        <Text style={ownStyles.text}>Reparto: {pelicula.cast?.join(', ')}</Text>
         <Text style={ownStyles.text}>Año: {pelicula.year}</Text>
         {collapsed ? (
           <Text style={ownStyles.text} ellipsizeMode="tail" numberOfLines={2}>
@@ -127,9 +130,7 @@ export const Ficha = ({ navigation, route }) => {
       </ScrollView>
       <TouchableOpacity
         style={styles.longButton}
-        onPress={() =>
-          navigation.navigate('Home', { usuario: usuarioActualizado })
-        }
+        onPress={() => navigation.navigate('Home', { usuario })}
       >
         <Text style={ownStyles.longButton}>Buscar otra película</Text>
       </TouchableOpacity>

@@ -49,7 +49,7 @@ export const SignUp = ({ navigation }) => {
         });
 
         // Si la creacion fue exitosa, vamos a la home
-        navigation.navigate('Home', { nombreUsuario: createdUser.nombre });
+        navigation.navigate('Home', { usuario: createdUser });
       } else {
         setError(SIGNUP_ERROR);      }
     } catch (e) {

@@ -126,11 +126,11 @@ export const Login = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          setError('');
           setLoginData({
             email: '',
             password: '',
           });
-          setError('');
           navigation.navigate('SignUp');
         }}
       >

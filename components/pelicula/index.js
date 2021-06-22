@@ -4,13 +4,14 @@ import { Feather, FontAwesome } from '@expo/vector-icons';
 
 import { styles } from '../../styles';
 
-export const Pelicula = ({ navigation, pelicula, usuario }) => (
+export const Pelicula = ({ navigation, pelicula, usuario, goBackTitle }) => (
   <View style={ownStyles.container}>
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('Ficha', {
           pelicula,
           usuario,
+          goBackTitle,
         })
       }
     >
@@ -26,11 +27,12 @@ export const Pelicula = ({ navigation, pelicula, usuario }) => (
         navigation.navigate('Ficha', {
           pelicula,
           usuario,
+          goBackTitle,
         })
       }
     >
       <Text style={styles.buttonText}>
-        {usuario.favoritos.some((f) => f.filmId == pelicula.imdbID) ? (
+        {usuario.favoritos.some((f) => f.imdbID === pelicula.imdbID) ? (
           <FontAwesome name="star" size={12} color="white" />
         ) : (
           <Feather name="star" size={12} color="white" />
