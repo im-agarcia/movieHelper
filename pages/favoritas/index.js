@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import {
   View,
   Image,
@@ -15,11 +15,18 @@ import { Pelicula } from '../../components';
 const API = 'http://localhost:3000';
 
 export function Favoritas({ navigation, route }) {
+  const { goBackTitle } = route.params;
   const [usuario, setUsuario] = useState({});
 
   useEffect(() => {
     getUser(route.params.usuario.email, setUsuario);
   }, [route.params.usuario]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackTitle: goBackTitle,
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

@@ -62,7 +62,7 @@ export function Listado({ navigation, route }) {
       {usuario ? (
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Favoritas', { usuario })}
+            onPress={() => navigation.navigate('Favoritas', { usuario, goBackTitle: 'Listado' })}
           >
             <Text style={styles.buttonText}>{`Hola, ${usuario.nombre}`}</Text>
           </TouchableOpacity>
